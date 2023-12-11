@@ -5,10 +5,11 @@ const ctrlWrapper = require("../helpers/ctrlWrapper");
 
 const listContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 5 } = req.query;
+  const { page = 1, limit = 20, favorite } = req.query;
   const skip = (page - 1) * limit;
+  const filter = favorite === undefined ? { owner } : { owner, favorite };
 
-  const allContacts = await Contact.find({ owner }, "-createdAt -updatedAt", { skip, limit });
+  const allContacts = await Contact.find(filter, "-createdAt -updatedAt", { skip, limit });
   res.status(200).json(allContacts);
 };
 
