@@ -5,16 +5,16 @@ const ctrlWrapper = require("../helpers/ctrlWrapper");
 
 const listContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const allContacts = await Contact.find({ owner }, "-createdAt -updatedAt");
+  const { page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const allContacts = await Contact.find({ owner }, "-createdAt -updatedAt", { skip, limit });
   res.status(200).json(allContacts);
 };
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
-  const contactById = await Contact.findById(
-    contactId,
-    "-createdAt -updatedAt"
-  );
+  const contactById = await Contact.findById(contactId, "-createdAt -updatedAt");
   if (!contactById) {
     throw HttpError(404);
   }
