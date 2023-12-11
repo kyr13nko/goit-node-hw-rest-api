@@ -59,9 +59,19 @@ const currentUser = async (req, res) => {
   res.status(200).json({ email, subscription });
 };
 
+const updateSubscription = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findByIdAndUpdate({ _id }, req.body, {
+    new: true,
+  });
+
+  res.json(user);
+};
+
 module.exports = {
   registerUser: ctrlWrapper(registerUser),
   loginUser: ctrlWrapper(loginUser),
   logoutUser: ctrlWrapper(logoutUser),
   currentUser: ctrlWrapper(currentUser),
+  updateSubscription: ctrlWrapper(updateSubscription),
 };
