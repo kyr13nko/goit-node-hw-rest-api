@@ -9,9 +9,25 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
-router.post("/register", validateBody(schemas.registerAndLoginSchema), ctrl.registerUser);
+router.post(
+  "/register",
+  validateBody(schemas.registerAndLoginSchema),
+  ctrl.registerUser
+);
 
-router.post("/login", validateBody(schemas.registerAndLoginSchema), ctrl.loginUser);
+router.get("/verify/:verificationToken", ctrl.verifyEmail);
+
+router.post(
+  "/verify",
+  validateBody(schemas.verifySchema),
+  ctrl.resendVerifyEmail
+);
+
+router.post(
+  "/login",
+  validateBody(schemas.registerAndLoginSchema),
+  ctrl.loginUser
+);
 
 router.post("/logout", authenticate, ctrl.logoutUser);
 
@@ -24,6 +40,11 @@ router.patch(
   ctrl.updateSubscription
 );
 
-router.patch("/avatars", authenticate, upload.single("avatar"), ctrl.updateAvatar);
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  ctrl.updateAvatar
+);
 
 module.exports = router;
