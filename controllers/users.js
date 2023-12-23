@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs/promises");
 const Jimp = require("jimp");
 const { nanoid } = require("nanoid");
+require("dotenv").config();
 
 const { User } = require("../models/user");
 
