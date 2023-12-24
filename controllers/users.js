@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
@@ -68,7 +68,7 @@ const verifyEmail = async (req, res) => {
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  if (!user) throw HttpError(400, "Missing required field email");
+  if (!user) throw HttpError(400, "User not found");
   if (user.verify) throw HttpError(401, "Verification has already been passed");
 
   const verifyEmail = {
